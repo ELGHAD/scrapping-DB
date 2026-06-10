@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopScraper Maroc</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <span class="brand-icon">🛒</span>
+      <span class="brand-name">ShopScraper <span class="brand-tag">Maroc</span></span>
+    </div>
+    <button class="btn-history" id="btnHistory">🕘 Historique</button>
+  </header>
+
+  <main>
+
+    <!-- Search -->
+    <section class="search-panel">
+      <h1>Recherchez un produit<br/><em>sur Google Shopping Maroc</em></h1>
+      <p class="subtitle">Résultats localisés 🇲🇦 — exportés en Excel et sauvegardés en base de données.</p>
+      <div class="search-bar">
+        <input id="searchInput" type="text" placeholder="Ex: iPhone 15, cafetière, Nike Air Max…" autocomplete="off"/>
+        <select id="pagesSelect" title="Nombre de pages">
+          <option value="1">1 page</option>
+          <option value="2">2 pages</option>
+          <option value="3">3 pages</option>
+          <option value="5">5 pages</option>
+        </select>
+        <button id="searchBtn">Rechercher</button>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <div id="statsBar" class="stats-bar hidden">
+      <div class="stat"><span id="statTotal">—</span><label>Produits</label></div>
+      <div class="stat"><span id="statAvgPrice">—</span><label>Prix moyen</label></div>
+      <div class="stat"><span id="statMin">—</span><label>Prix min</label></div>
+      <div class="stat"><span id="statMax">—</span><label>Prix max</label></div>
+      <div class="stat"><span id="statRating">—</span><label>Note moy.</label></div>
+      <div class="stat"><span id="statStores">—</span><label>Boutiques</label></div>
+      <button class="btn-download" id="btnDownload">⬇ Télécharger Excel</button>
+    </div>
+
+    <!-- Filters -->
+    <div id="filterBar" class="filter-bar hidden">
+      <label>Prix max:
+        <input type="number" id="filterPrice" placeholder="ex: 500"/> MAD
+      </label>
+      <label>Note min:
+        <select id="filterRating">
+          <option value="0">Toutes</option>
+          <option value="3">3+</option>
+          <option value="4">4+</option>
+          <option value="4.5">4.5+</option>
+        </select>
+      </label>
+      <label>Trier par:
+        <select id="sortBy">
+          <option value="position">Pertinence</option>
+          <option value="price_asc">Prix croissant</option>
+          <option value="price_desc">Prix décroissant</option>
+          <option value="rating">Meilleures notes</option>
+          <option value="reviews">Plus d'avis</option>
+        </select>
+      </label>
+      <span id="filteredCount" class="filtered-count"></span>
+    </div>
+
+    <!-- States -->
+    <div id="emptyState"   class="state">
+      <div class="state-icon">🔍</div>
+      <p>Lancez une recherche pour voir les produits</p>
+    </div>
+    <div id="loadingState" class="state hidden">
+      <div class="spinner"></div>
+      <p>Recherche en cours…</p>
+    </div>
+    <div id="errorState"   class="state hidden">
+      <div class="state-icon">⚠️</div>
+      <p id="errorMsg"></p>
+    </div>
+
+    <!-- Grid -->
+    <div id="resultsGrid" class="results-grid hidden"></div>
+
+  </main>
+
+  <!-- History modal -->
+  <div id="historyModal" class="modal hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>🕘 Historique des recherches</h2>
+        <button id="closeHistory">✕</button>
+      </div>
+      <div id="historyList" class="history-list"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
