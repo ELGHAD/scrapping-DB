@@ -1,62 +1,167 @@
-# scraping-DB
+# Scraping DB — Search Data Collection and Export Tool
 
-Small Node.js scraper that uses SerpApi to collect search results and save them to a local database and spreadsheet.
+A lightweight Node.js application that retrieves search results through SerpApi, stores collected data locally, and exports datasets to spreadsheet and structured formats.
 
-**Project**
-- **Description:** A lightweight scraper + small web UI that runs queries via SerpApi, stores results, and exports to Excel/CSV.
+## Overview
 
-**Prerequisites**
-- **Node.js:** v14+ recommended.
-- **SERPAPI key:** Obtain a key from SerpApi and set it as an environment variable `SERPAPI_API_KEY` or provide it via the app's configuration.
+Scraping DB provides a simple workflow for collecting search results and organizing them for further analysis. It combines API integration, local data persistence, command-line execution, and a minimal web interface.
 
-**Install**
+The project uses a modular structure to separate search requests, database operations, argument parsing, and data export.
+
+## Key Features
+
+- **Search Data Collection:** Retrieve search results through the SerpApi API.
+- **Local Data Storage:** Persist collected records using the project's database layer.
+- **Spreadsheet Export:** Generate Excel and CSV files for further analysis.
+- **JSON Export:** Save structured results as JSON.
+- **Command-Line Execution:** Run collection tasks using Node.js.
+- **Minimal Web Interface:** Access the lightweight server interface.
+- **Modular Architecture:** Separate API communication, storage, argument parsing, and export logic.
+
+## Technology Stack
+
+| Component | Technology |
+|---|---|
+| Runtime | Node.js |
+| Language | JavaScript |
+| Search Data Provider | SerpApi |
+| Data Persistence | Local database layer |
+| Export Formats | Excel, CSV, JSON |
+| Interface | Lightweight web UI |
+| Configuration | Environment variables |
+
+The exact database engine and frontend libraries depend on the current implementation.
+
+## Architecture
+
+```text
+User
+ |
+ +--------------------+
+ |                    |
+ v                    v
+CLI Runner        Web Interface
+ |                    |
+ +----------+---------+
+            |
+            v
+       Data Collection
+            |
+            v
+        SerpApi API
+            |
+            v
+    Search Result Processing
+            |
+            v
+      Local Data Storage
+            |
+            v
+      Export Generation
+            |
+       +----+----+
+       |    |    |
+      XLSX  CSV  JSON
+```
+
+## Project Structure
+
+```text
+scraping-DB/
+├── scraper.js       # Main scraper runner
+├── server.js        # Lightweight web server and UI
+├── lib/
+│   ├── args.js      # Command-line argument parsing
+│   ├── db.js        # Database operations
+│   ├── excel.js     # Spreadsheet and CSV exports
+│   └── serpapi.js   # SerpApi integration
+├── public/          # Static assets for the web interface
+└── output/          # Generated data exports
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js and npm
+- A SerpApi API key
+- Any database setup required by the project's database implementation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/ELGHAD/scraping-DB.git
+cd scraping-DB
+```
+
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-**Configuration**
-- Set your SerpApi API key in the environment:
+### 3. Configure the API key
+
+Set your SerpApi API key as an environment variable.
+
+**Windows PowerShell**
+
+```powershell
+$env:SERPAPI_API_KEY = "your_api_key_here"
+```
+
+**Linux or macOS**
 
 ```bash
-# Windows (PowerShell)
-$env:SERPAPI_API_KEY = "your_api_key_here"
-
-# Linux / macOS
 export SERPAPI_API_KEY="your_api_key_here"
 ```
 
-**Usage**
-- Run the scraper:
+Keep API keys private. Do not commit credentials to the repository.
+
+### 4. Run the scraper
 
 ```bash
 node scraper.js
 ```
 
-- Start the small server / UI:
+### 5. Start the web interface
 
 ```bash
 node server.js
 ```
 
-Check `output/` for generated spreadsheets and JSON exports.
+Check the terminal output for the server address and inspect the `output/` directory for generated files.
 
-**Files & Structure**
-- [scraper.js](scraper.js) — main scraper runner.
-- [server.js](server.js) — minimal web UI server.
-- [lib/args.js](lib/args.js) — argument parsing helpers.
-- [lib/db.js](lib/db.js) — database helpers and storage.
-- [lib/excel.js](lib/excel.js) — Excel/CSV export helpers.
-- [lib/serpapi.js](lib/serpapi.js) — SerpApi wrapper and request handling.
-- [output/](output/) — generated outputs (spreadsheets, exports).
-- [public/](public/) — static assets used by the server UI.
+## Error Handling and Troubleshooting
 
-**Troubleshooting**
-- If requests fail, confirm `SERPAPI_API_KEY` is set and has quota.
-- Network or rate-limit errors are logged to console — retry with backoff or reduce request rate.
+- **Authentication or API errors:** Verify that `SERPAPI_API_KEY` is set correctly and that your SerpApi account has available quota.
+- **Network failures:** Check connectivity and retry transient failures.
+- **Rate limits:** Reduce request frequency and use bounded retries with exponential backoff where appropriate.
+- **Missing exports:** Check the output directory and verify that the application has permission to write files.
+- **Database errors:** Confirm that the configured database is available and its settings match the implementation.
 
-**Contributing**
-- Open issues or PRs. Keep changes small and document any new config options.
+## Engineering Considerations
 
-**License**
-- MIT (or change to the license you prefer).
+Potential improvements include:
+
+- Input validation and clearer command-line options.
+- Structured logging and more informative error messages.
+- Retry policies and request throttling.
+- Automated tests for API handling, persistence, and export generation.
+- Database schema documentation and reproducible setup instructions.
+- Configuration validation and secure handling of API credentials.
+
+## Limitations
+
+Search results depend on SerpApi availability, its response format, account limits, and the queries submitted. The project should not be described as directly scraping or integrating with every search engine or website unless those integrations are implemented explicitly.
+
+## Author
+
+**ELGHAD**
+
+- GitHub: https://github.com/ELGHAD
+- Portfolio: https://elghad.github.io/hamza-elrhadiouini-portfolio
+
+## License
+
+Add or retain a `LICENSE` file that matches the license you intend to distribute this project under. An MIT license should only be claimed if the repository actually includes that license.
